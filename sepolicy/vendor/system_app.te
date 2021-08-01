@@ -1,0 +1,19 @@
+get_prop(system_app, vendor_fm_prop)
+get_prop(system_app, hwrev_prop)
+
+binder_call(system_app, wificond)
+
+allow system_app proc_pagetypeinfo:file r_file_perms;
+allow system_app sysfs_zram:dir search;
+allow system_app sysfs_zram:file r_file_perms;
+allow system_app fm_radio_device:chr_file r_file_perms;
+
+dontaudit system_app {
+  apex_service
+  system_suspend_control_service
+}:service_manager find;
+
+#Kcal
+type sysfs_kcal, fs_type, sysfs_type;
+allow system_app sysfs_kcal:dir search;
+allow system_app sysfs_kcal:file rw_file_perms;
